@@ -1,0 +1,21 @@
+
+<div>
+  <div>
+    <button class="btn btn-secondary"  [routerLink]="['/carForm']">Добавить</button>
+  </div>
+  <div>
+    <table class="table-bordered">
+      <thead> <tr><td>Фамилия </td><td>Имя</td><td>Отчество </td><td>Количество автомобилей </td><td></td></tr> </thead>
+      <tbody>
+      <tr *ngFor="let owner of owners">
+        <td>{{owner.LastName}}</td><td>{{owner.FirstName}}</td><td>{{owner.MiddleName}}</td><td>{{owner.Cars.length}}</td>
+        <td>
+        <button class="btn btn-secondary"   [routerLink]="['/carForm', owner.id,'watch']">Просмотр</button>
+        <button class="btn btn-secondary"  [routerLink]="['/carForm', owner.id ,'edit']">Редактировать</button>
+        <button class="btn btn-danger" (click)="delete(owner.id)">Удалить</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

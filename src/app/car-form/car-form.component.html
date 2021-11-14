@@ -1,0 +1,133 @@
+<div  id="addDiv" *ngIf="status==undefined">
+  <form [formGroup]="carTable"  >
+    <div>
+      <form [formGroup]="ownerForm">
+      <table class="table-borderless">
+        <tr><td><label>Имя</label></td><td><input type="text" formControlName="firstName"></td></tr>
+        <tr><td><label>Фамилия</label></td><td><input type="text"  formControlName="lastName"></td></tr>
+        <tr><td><label>Отчество</label></td><td><input type="text"  formControlName="middleName"></td></tr>
+      </table>
+      </form>
+    </div>
+    <table class="table table-bordered" >
+      <thead >
+      <td>Номер</td>
+      <td>Марка</td>
+      <td>Модель</td>
+      <td>Год</td>
+      <td></td>
+      </thead>
+      <tbody>
+      <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls ; let i=index">
+        <tr  [formGroupName]="i">
+          <td>
+            <input matInput type="text" formControlName="LicensePlateNumber" class="form-control">
+          </td>
+          <td>
+            <input matInput type="text" formControlName="ManufacturerName"  class="form-control">
+          </td>
+          <td>
+            <input matInput type="text" formControlName="ModelName"  class="form-control">
+          </td>
+          <td>
+            <input matInput type="number" formControlName="YearOfManufacture"  class="form-control">
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteRow(i)">Удалить</button>
+          </td>
+        </tr>
+
+      </ng-container>
+      </tbody>
+    </table>
+    <div >
+      <button class=" btn btn-primary" (click)="addRow()">Добавить автомобиль</button>
+      <button class="btn btn-success" [disabled]="carTable.invalid || ownerForm.invalid || carTable.get('tableRows')?.value.length===0" type="button" (click)="submitAddForm()">Сохранить</button><button class=" btn btn-secondary" type="button" (click)="back()">Назад</button>
+    </div>
+  </form>
+</div>
+<div  id="watchDiv" *ngIf="status=='watch'">
+<div>
+  <div>
+    <table class="table-borderless">
+      <tr><td><label>Имя</label></td><td><input type="text" [value]="owner.FirstName" readonly></td></tr>
+      <tr><td><label>Фамилия</label></td><td><input type="text" [value]="owner.LastName" readonly></td></tr>
+      <tr><td><label>Отчество</label></td><td><input type="text" [value]="owner.MiddleName" readonly></td></tr>
+    </table>
+  </div>
+  <div>
+    <h2>Автомобили</h2>
+    <table class="table-bordered">
+      <thead><tr>
+        <td>
+          Номер
+        </td>
+        <td>
+          Марка
+        </td>
+        <td>
+          Модель
+        </td>
+        <td>
+          Год производства
+        </td>
+      </tr></thead>
+      <tbody>
+      <tr *ngFor="let car of owner.Cars"><td>{{car.LicensePlateNumber}}</td><td>{{car.ManufacturerName}}</td><td>{{car.ModelName}}</td><td>{{car.YearOfManufacture}}</td></tr>
+      </tbody>
+    </table>
+    <button class="btn btn-secondary" (click)="back()">Назад</button>
+  </div>
+</div>
+</div>
+<div id="editDiv" *ngIf="status=='edit'">
+    <span></span>
+    <form [formGroup]="carTable">
+      <div>
+        <form [formGroup]="ownerForm">
+          <table class="table-borderless">
+            <tr><td><label >Имя</label></td><td><input type="text" formControlName="firstName" [ngModel]="this.owner.FirstName"></td></tr>
+            <tr><td><label>Фамилия</label></td><td><input type="text"  formControlName="lastName"[ngModel]="this.owner.LastName"></td></tr>
+            <tr><td><label>Отчество</label></td><td><input type="text"  formControlName="middleName" [ngModel]="this.owner.MiddleName"></td></tr>
+          </table>
+        </form>
+      </div>
+      <table class="table table-bordered" >
+        <thead >
+        <td>Номер</td>
+        <td>Марка</td>
+        <td>Модель</td>
+        <td>Год</td>
+        <td></td>
+        </thead>
+        <tbody>
+        <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls ; let i=index">
+          <tr  [formGroupName]="i" >
+            <td>
+              <input  type="text" formControlName="LicensePlateNumber"  >
+            </td>
+            <td>
+              <input  type="text" formControlName="ManufacturerName" >
+            </td>
+            <td>
+              <input  type="text" formControlName="ModelName" >
+            </td>
+            <td>
+              <input  type="number" formControlName="YearOfManufacture" >
+            </td>
+            <td>
+              <button class="btn btn-danger" (click)="deleteRow(i)">Удалить</button>
+            </td>
+
+          </tr>
+          </ng-container>
+
+        </tbody>
+      </table>
+      <div >
+        <button class=" btn btn-primary" (click)="addRow()">Добавить автомобиль</button>
+        <button class="btn btn-success" [disabled]="carTable.invalid || ownerForm.invalid || carTable.get('tableRows')?.value.length===0" type="button" (click)="submitEditForm()">Сохранить</button><button class=" btn btn-secondary" (click)="back()" type="button">Назад</button>
+      </div>
+    </form>
+</div>
+
